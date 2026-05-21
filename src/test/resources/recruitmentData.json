@@ -1,0 +1,10 @@
+[
+  {
+    "firstName": "Ahmed",
+    "middleName": "Auto",
+    "lastName": "Ali",
+    "email": "ahmed@test.com",
+    "vacancy": "Payroll Administrator",
+    "cvFile": "sample_cv.pdf"
+  }
+]
