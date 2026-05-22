@@ -6,7 +6,7 @@ import org.testng.*;
 import java.io.File;
 
 public class TestListener implements ITestListener, IExecutionListener, IInvokedMethodListener {
-    // تعريف المسارات بناءً على هيكلية مشروعك
+    
     File allure_results = new File("test-outputs/allure-results");
     File logs = new File("test-outputs/Logs");
     File screenshots = new File("screenshots");
@@ -15,7 +15,7 @@ public class TestListener implements ITestListener, IExecutionListener, IInvoked
     @Override
     public void onExecutionStart() {
         LogsUtil.info("--- Test Execution Started ---");
-// تنظيف الملفات القديمة لضمان تقارير دقيقة
+
         FilesUtils.deleteFiles(allure_results);
         FilesUtils.cleanDirectory(logs);
         FilesUtils.cleanDirectory(screenshots);
@@ -39,8 +39,6 @@ public class TestListener implements ITestListener, IExecutionListener, IInvoked
                 case ITestResult.FAILURE ->  ElementActions.takeScreenShot(GUIDriver.getDriver(),"failed - "+ testResult.getName());
                 case ITestResult.SKIP ->  ElementActions.takeScreenShot(GUIDriver.getDriver(),"skipped - "+ testResult.getName());
             }
-
-            // إرفاق الـ Logs بتقرير Allure في نهاية كل ميثود (سواء نجحت أو فشلت)
 
             AllureUtils.attacheLogsToAllureReport();
         }
