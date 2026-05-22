@@ -6,20 +6,16 @@ import java.util.Properties;
 
 public class ConfigReader {
     private  static Properties properties;
-    // حصالة لكل Thread (متصفح) لوحده
     private static ThreadLocal<Double> expectedTotal = ThreadLocal.withInitial(() -> 0.0);
 
-    // ميثود لإضافة سعر
     public static void addToTotal(double price) {
         expectedTotal.set(expectedTotal.get() + price);
     }
 
-    // ميثود لجلب المجموع
     public static double getTotal() {
         return expectedTotal.get();
     }
 
-    // ميثود لتصفير العداد (مهمة جداً بين التستات)
     public static void clearTotal() {
         expectedTotal.set(0.0);
     }
