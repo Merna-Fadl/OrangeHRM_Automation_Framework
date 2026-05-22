@@ -25,7 +25,7 @@ public class RecruitmentPage {
     private By lastName = By.name("lastName");
     private By email = By.xpath("(//input[@placeholder='Type here'])[1]");
     private By contactNumber = By.xpath("(//input[@placeholder='Type here'])[2]");
-    private By resumeUpload = By.xpath("//input[@type='file']"); // ده المسؤول عن زرار Browse
+    private By resumeUpload = By.xpath("//input[@type='file']"); 
     private By vacancyDropdown = By.xpath("//div[@class='oxd-select-text-input']");
     private By keywordsField = By.xpath("//input[@placeholder='Enter comma seperated words...']");
     private By notesField = By.xpath("//textarea[@placeholder='Type here']");
@@ -44,10 +44,8 @@ public class RecruitmentPage {
     private By successToastMessage = By.xpath("//div[@id='oxd-toaster_1']//p[contains(@class, 'oxd-text--toast-message')]");
     //method
     public RecruitmentPage navigateToRecruitment() {
-        //  انتظر لحد ما كلمة Recruitment تظهر وتبقى قابلة للضغط
         driver.waits().waitForElementClickable(recruitmentMenu);
         driver.elementActions().findElement(recruitmentMenu).click();
-        //  انتظر برضه زرار Add قبل ما تضغط عليه
         driver.waits().waitForElementClickable(addButton);
         driver.elementActions().findElement(addButton).click();
         return this;
@@ -64,22 +62,18 @@ public class RecruitmentPage {
     }
     @Step("Select Vacancy from Custom Dropdown")
     private void selectVacancy(String vacancyName) {
-        // 1. الضغط لفتح القائمة
         driver.elementActions().findElement(vacancyDropdown).click();
-        // 2. اختيار العنصر بناءً على النص المرسل ديناميكياً
         By vacancyOption = By.xpath("//div[@role='listbox']//*[contains(text(), '" + vacancyName + "')]");
         driver.elementActions().findElement(vacancyOption).click();
     }
 
     @Step("Upload Resume File")
     public RecruitmentPage uploadResume(String fileName) {
-        // استخدام File.getAbsolutePath() هو أضمن طريقة عشان الـ Java تظبط الـ Slashes لوحدها
         File file = new File("src/test/resources/" + fileName);
         String absolutePath = file.getAbsolutePath();
 
         System.out.println("Uploading file from path: " + absolutePath);
 
-        // بعت المسار للـ locator المسؤول عن الـ upload
         driver.elementActions().findElement(resumeUpload).sendKeys(absolutePath);
         return this;
     }
@@ -90,32 +84,24 @@ public class RecruitmentPage {
     }
     @Step("Validate Success Message Displayed")
     public RecruitmentPage validateSuccessMessage() {
-        // 1. الانتظار حتى ظهور الرسالة (Explicit Wait)
         WebElement successToast = driver.waits().waitForElementVisible(successMessage);
 
-        // 2. التأكد إن العنصر ظهر (Assert Not Null)
         Assert.assertNotNull(successToast, "CRITICAL: Success message didn't appear! Candidate might not be saved.");
 
-        // 3. التأكد إن الرسالة ظاهرة فعلاً (Visibility Check)
         org.testng.Assert.assertTrue(successToast.isDisplayed(), "Success message is not visible on the UI!");
 
-        return this; // عشان تقدري تكملي الـ Chain لو حبيتي
+        return this;
     }
 
     @Step("Search for candidate by name with Autocomplete: {name}")
     public RecruitmentPage searchForCandidate(String name) {
         driver.waits().waitForElementClickable(candidatesTab);
         driver.elementActions().clickElement(candidatesTab);
-        // 1. كتابة الاسم في خانة البحث
         driver.elementActions().sendKey(candidateNameSearchField, name);
-       //  الانتظار لحد ما قائمة الـ Hints تظهر وتكون قابلة للضغط
         driver.waits().waitForElementVisible(firstHintOption);
-        // الضغط على أول خيار بيظهر
         driver.elementActions().clickElement(firstHintOption);
-        // 2. الضغط على Search
         driver.elementActions().clickElement(searchButton);
 
-        // 3. الانتظار لحد ما الجدول يحمل (صورة 2_4.PNG)
         driver.waits().waitForElementVisible(deleteIcon);
         return this;
     }
@@ -123,17 +109,14 @@ public class RecruitmentPage {
     @Step("Delete the found candidate")
     public RecruitmentPage deleteCandidate() {
         driver.elementActions().clickElement(deleteIcon);
-        // 2. التأكيد من الـ Pop-up
         driver.elementActions().clickElement(confirmDeleteBtn);
 
         return this;
     }
     @Step("Validating deletion success message")
     public RecruitmentPage validateDeletionSuccess() {
-        // الانتظار حتى تظهر رسالة النجاح
         WebElement toast = driver.waits().waitForElementVisible(successToastMessage);
 
-        // التأكد من أن الرسالة تحتوي على كلمة 'Successfully Deleted'
         String messageText = toast.getText();
         System.out.println("Appearance of success message: " + messageText);
 
