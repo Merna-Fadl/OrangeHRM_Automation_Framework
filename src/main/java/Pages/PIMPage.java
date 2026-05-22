@@ -155,24 +155,18 @@ public class PIMPage {
     public PIMPage deleteSelectedEmployee(String id) {
         
         By dynamicCheckbox = By.xpath("//div[contains(text(),'" + this.lastUsedId + "')]/preceding::span[contains(@class,'oxd-checkbox-input')][1]");
-       // By dynamicCheckbox = By.xpath("//div[@role='row' and .//div[text()='" + this.lastUsedId + "']]//i[contains(@class,'oxd-checkbox-input-icon')]");
-        // 2. الضغط على الـ Checkbox (زي ما عملتي في صورة 1_4.PNG)
+    
         driver.elementActions().clickElement(dynamicCheckbox);
-
-        // 3. الضغط على زرار Delete Selected الأحمر
         driver.elementActions().clickElement(deleteSelectedBtn);
 
-        // 4. التأكيد من الـ Pop-up
         driver.elementActions().clickElement(confirmDeleteBtn);
 
         return this;
     }
     @Step("Validating deletion success message")
     public PIMPage validateDeletionSuccess() {
-        // الانتظار حتى تظهر رسالة النجاح
         WebElement toast = driver.waits().waitForElementVisible(successMessage);
 
-        // التأكد من أن الرسالة تحتوي على كلمة 'Successfully Deleted'
         String messageText = toast.getText();
         System.out.println("Appearance of success message: " + messageText);
 
