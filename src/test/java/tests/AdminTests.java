@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 public class AdminTests extends BaseTest {
     @Test(description = "E2E: Create Employee and then Create Admin User Account")
     public void testUserCreationFlow() {
-        // بيانات الاختبار
+        
         String firstName = "Merna";
         String middleName = "QA";
         String lastName = "Automation";
@@ -17,7 +17,7 @@ public class AdminTests extends BaseTest {
         String userName = "merna.test" + System.currentTimeMillis();
         String password = "P@ssword123";
 
-        // 1. تسجيل الدخول (باستخدام الـ Fluent Design)
+        
         loginPage.enterUsername(ConfigReader.getProperty("username"))
                 .enterPassword(ConfigReader.getProperty("password"))
                 .clickLogin()
@@ -46,9 +46,7 @@ public class AdminTests extends BaseTest {
 
         // 2. Navigation & Action
         adminPage.navigateToAdmin()
-        .clickAddButton()
-        // 3. كتابة اسم مستخدم موجود فعلاً (زي "Admin")
-        // استخدمي ميثود بتكتب بس مش بتعمل Save
+        .clickAddButton() 
          .enterJustUsername("Admin");
 
 
