@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 public class RecruitmentTest extends BaseTest {
     @DataProvider(name = "recruitmentData")
     public Object[][] getRecruitmentData() {
-        // نستخدم الميثود الجديدة اللي عملناها في الـ JsonReader
         return JsonReader.getRecruitmentJsonData("src/test/resources/recruitmentData.json");
     }
     @Severity(SeverityLevel.CRITICAL)
