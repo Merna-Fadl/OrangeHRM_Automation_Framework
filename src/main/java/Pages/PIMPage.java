@@ -107,38 +107,33 @@ public class PIMPage {
 
     @Step("Validating Success")
     public PIMPage validateEmployeeSaved() {
-        // تأكدي إن الميثود دي بتنتظر ظهور العنصر مش مجرد بتعمل check سريع
+        
         WebElement successToast = driver.waits().waitForElementVisible(successMessage);
 
-        // التأكد إن العنصر مش null (يعني ظهر فعلاً)
         Assert.assertNotNull(successToast, "Employee was NOT saved successfully or success message didn't appear!");
-
-        // للتأكد أكتر إن الرسالة هي المطلوبة (اختياري)
         Assert.assertTrue(successToast.isDisplayed());
         return this;
     }
 
     @Step("Searching for the added employee by ID")
     public PIMPage searchForAddedEmployee() {
-        //  انتظر أولاً حتى يكون التاب قابل للضغط تماماً (حل مشكلة Firefox Headless)
         driver.waits().waitForElementClickable(employeeListTab);
-        // 1. الرجوع للقائمة
+        
         driver.elementActions().clickElement(employeeListTab);
-        //  انتظر حتى تظهر خانة البحث عن الـ ID قبل الكتابة فيها
+        
         driver.waits().waitForElementVisible(idSearchField);
-        // 2. استخدام الـ ID المحفوظ
+        
         driver.elementActions().sendKey(idSearchField, this.lastUsedId);
 
-        // 3. الضغط على Search
+        
         driver.elementActions().clickElement(searchButton);
 
-        // *** الحل الجذري للـ Stale Element ***
-        // هنحاول نستنى العنصر يظهر، ولو المتصفح (زي Firefox) مسح العنصر فجأة، هنحاول مرة كمان
+   
         int attempts = 0;
         while (attempts < 3) {
             try {
                 driver.waits().waitForElementVisible(firstRowIdResult);
-                break; // لو اشتغل تمام اخرج من الـ loop
+                break;
             } catch (org.openqa.selenium.StaleElementReferenceException e) {
                 attempts++;
                 System.out.println("Attempt " + attempts + ": Element went stale, retrying...");
@@ -148,7 +143,7 @@ public class PIMPage {
     }
     @Step("Verifying employee exists in the table")
     public PIMPage validateEmployeeInTable() {
-        // استني لحد ما الجدول يحمل والنتيجة تظهر
+        
         WebElement result = driver.waits().waitForElementVisible(firstRowIdResult);
 
         String actualId = result.getText();
@@ -158,7 +153,7 @@ public class PIMPage {
     }
     @Step("Selecting employee and clicking delete selected")
     public PIMPage deleteSelectedEmployee(String id) {
-        // بناء لوكيتور الـ Checkbox بشكل ديناميكي بناءً على الـ ID اللي اتسجل فعلاً
+        
         By dynamicCheckbox = By.xpath("//div[contains(text(),'" + this.lastUsedId + "')]/preceding::span[contains(@class,'oxd-checkbox-input')][1]");
        // By dynamicCheckbox = By.xpath("//div[@role='row' and .//div[text()='" + this.lastUsedId + "']]//i[contains(@class,'oxd-checkbox-input-icon')]");
         // 2. الضغط على الـ Checkbox (زي ما عملتي في صورة 1_4.PNG)
