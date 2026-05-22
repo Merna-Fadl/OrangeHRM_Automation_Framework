@@ -38,7 +38,7 @@ public class PIMPage {
 
     // --- Table Results & Post-Action Elements ---
     private By successMessage = By.xpath("//div[contains(@class,'oxd-toast-content')]");
-    // لوكيتور لأول صف في الجدول عشان نتأكد إن الموظف ظهر
+    
     private By firstRowIdResult = By.xpath("//div[@class='oxd-table-card']//div[@role='cell'][2]");
     private By deleteSelectedBtn = By.xpath("//button[contains(.,'Delete Selected')]");
     private By confirmDeleteBtn = By.xpath("//button[contains(.,'Yes, Delete')]");
@@ -71,17 +71,14 @@ public class PIMPage {
     public PIMPage fillEmployeeId(String id) {
 
         WebElement idField = driver.elementActions().findElement(employeeIdField);
-        // 1. الضغط على Ctrl + A لتحديد الرقم الموجود (القديم)
+        
         idField.sendKeys(Keys.CONTROL + "a");
-        // 2. الضغط على Backspace لمسح التحديد
         idField.sendKeys(Keys.BACK_SPACE);
 
-        // 2. توليد ID فريد (الـ ID بتاعك + رقم عشوائي)
-        // ده هيخلي الـ ID مثلاً 0370m55 فميعملش Exist أبداً
+       
         String uniqueId = id + (int)(Math.random() * 1000);
-        // 3. دلوقتي الخانة فاضية تماماً، نكتب الـ ID بتاعنا
+        
         idField.sendKeys(uniqueId);
-        // حفظ الـ ID عشان نستخدمه في البحث لاحقاً
         this.lastUsedId = uniqueId;
         System.out.println("Final ID used for registration and search: " + uniqueId);
         return this;
@@ -89,14 +86,14 @@ public class PIMPage {
 
     @Step("Setting Login Credentials with dynamic username")
     public PIMPage setLoginCredentials(String user, String pass) {
-        // توليد اسم مستخدم فريد باستخدام الوقت الحالي
+        
         String dynamicUser = user + System.currentTimeMillis();
         driver.elementActions().clickElement(createLoginDetailsSwitch);
-        // إدخال اسم المستخدم الجديد
+        
         driver.elementActions().sendKey(usernameField, dynamicUser);
         driver.elementActions().sendKey(passwordField, pass);
         driver.elementActions().sendKey(confirmPasswordField, pass);
-        // طباعة الاسم الجديد في الـ Console عشان لو حبتي تعرفيه
+        
         System.out.println("Generated Username for this test: " + dynamicUser);
 
         return this;
