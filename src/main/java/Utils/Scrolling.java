@@ -11,7 +11,6 @@ public class Scrolling {
 
     public void ScrollToElement(By locator) {
         WebElement element = driver.getDriver().findElement(locator);
-        // استخدام JavaScript للسكرول في منتصف الشاشة بالضبط
         ((JavascriptExecutor) driver.getDriver()).executeScript(
                 "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});",
                 element
