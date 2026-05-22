@@ -10,7 +10,7 @@ public class BaseTest {
     protected GUIDriver driver;
     protected LoginPage loginPage;
 
-    @Parameters("browser") // دي بتسمح لـ TestNG يبعت المتصفح من الـ XML
+    @Parameters("browser")
     @BeforeMethod
     public void setUp(@Optional("chrome")String browser) {
         String Browser = System.getProperty("browser", browser);
@@ -21,18 +21,13 @@ public class BaseTest {
         driver.getDriver().get(ConfigReader.getProperty("url"));
         loginPage = new LoginPage(driver);
     }
-    // ضيفي الميثود دي عشان تفتحي اللينك قبل كل تست من جديد
-//    @BeforeMethod
-//    public void openUrl() {
-//        driver.getDriver().get(ConfigReader.getProperty("url"));
-//    }
+    
 
     @AfterMethod
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
-        // صَفري العداد الخاص بالـ Thread ده بعد ما يخلص
         ConfigReader.clearTotal();
     }
 }
