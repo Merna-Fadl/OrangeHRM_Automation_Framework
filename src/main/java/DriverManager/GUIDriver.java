@@ -14,12 +14,10 @@ public class GUIDriver {
         setDriver(browserName);
     }
 
-    // لإنشاء الدريفير
     private void setDriver(String browserName) {
         driverThreadLocal.set(DriverManager.BrowserFactory.getBrowser(browserName));
     }
 
-    // الميثود الأساسية لجلب الـ WebDriver
     public static WebDriver getDriver() {
         if (driverThreadLocal.get() == null) {
             LogsUtil.error("Driver is null! Make sure it's initialized.");
@@ -27,12 +25,10 @@ public class GUIDriver {
         }
         return driverThreadLocal.get();
     }
-    // فتح URL بشكل واضح
     public void navigateTo(String url) {
         getDriver().get(url);
     }
 
-    // ميثود لربط الأكشنز بالدرايفر الحالي
     public ElementActions elementActions() {
         return new ElementActions(this); // نمرر 'this' لأن الـ Constructor يتوقع GUIDriver
     }
@@ -40,7 +36,6 @@ public class GUIDriver {
         return new Waits(this);
     }
 
-    // لغلق المتصفح وتنظيف الـ ThreadLocal
     public void quit() {
         if (driverThreadLocal.get() != null) {
             getDriver().quit();
