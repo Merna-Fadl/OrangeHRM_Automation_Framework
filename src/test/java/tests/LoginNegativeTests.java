@@ -35,7 +35,8 @@ public class LoginNegativeTests extends BaseTest {
     @Description("Verify 'Required' message when fields are empty")
     @Test
     public void testLoginWithEmptyFields() {
-        // بنسيب الحقول فاضية ونضغط Login علطول
+        
+        
         loginPage.clickLogin();
 
         String validationMsg = loginPage.getFieldValidationMessage();
